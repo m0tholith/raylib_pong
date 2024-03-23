@@ -61,12 +61,12 @@ void ballUpdate(Ball *ball, float frameTime) {
             break;
         }
     }
-    if (ball->Position.x < 0) {
-        paddles[0].Points++;
+    if (ball->Position.x > ScreenWidth) {
+        paddles[1].Points++;
         ball->State = BallState_Resetting;
         resetCooldown = BallResetTime;
-    } else if (ball->Position.x > ScreenWidth) {
-        paddles[1].Points++;
+    } else if (ball->Position.x < 0) {
+        paddles[0].Points++;
         ball->State = BallState_Resetting;
         resetCooldown = BallResetTime;
     }
