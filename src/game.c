@@ -43,6 +43,7 @@ int main(void) {
         EndDrawing();
     }
 
+	free(paddles);
     // CloseAudioDevice();
     CloseWindow();
 
