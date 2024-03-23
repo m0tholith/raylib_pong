@@ -46,7 +46,7 @@ int main(void) {
             debugMode = !debugMode;
 
         if (debugMode)
-            debug(paddles);
+            debug(paddles, &ball);
 
         EndDrawing();
     }

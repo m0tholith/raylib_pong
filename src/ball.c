@@ -17,6 +17,9 @@ Ball ballCreate(Vector2 position, int angle) {
     };
 }
 void ballUpdate(Ball *ball, float frameTime) {
+    if (ball->State == BallState_Resetting)
+        return;
+
     ball->Position =
         Vector2Add(ball->Position, Vector2Scale(ball->Velocity, frameTime));
 
@@ -31,7 +34,6 @@ void ballUpdate(Ball *ball, float frameTime) {
 
     // 2. bouncing off of paddles
     Rectangle paddleRec = {0, 0, PaddleDimensions.x, PaddleDimensions.y};
-    DrawText(TextFormat("%d", ball->Angle), 10, ScreenHeight - 30, 20, WHITE);
     for (int i = 0; i < 2; i++) {
         paddleRec.x = paddles[i].Position.x - PaddleDimensionsCenter.x;
         paddleRec.y = paddles[i].Position.y - PaddleDimensionsCenter.y;
@@ -42,6 +44,13 @@ void ballUpdate(Ball *ball, float frameTime) {
                 Vector2Rotate((Vector2){0, -BallSpeed}, ball->Angle / RAD2DEG);
             break;
         }
+    }
+    if (ball->Position.x < 0) {
+        paddles[0].Points++;
+        ball->State = BallState_Resetting;
+    } else if (ball->Position.x > ScreenWidth) {
+        paddles[1].Points++;
+        ball->State = BallState_Resetting;
     }
 }
 void ballDraw(Ball *ball) { DrawCircleV(ball->Position, radius, WHITE); }

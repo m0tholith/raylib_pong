@@ -3,39 +3,66 @@
 #include "globals.h"
 #include "raygui.h"
 
-bool debugPaddles = true;
+const int yDiff = 20;
+const int xPadding = 10;
+
 bool debugFPS = true;
-int diff = 20;
-void debug(Paddle *paddles) {
-    Rectangle buttonBounds = {ScreenWidth - 110, 10, 100, 20};
+bool debugPaddles = true;
+bool debugBall = true;
+void debug(Paddle *paddles, Ball *ball) {
+    Rectangle buttonBounds = {ScreenWidth - 110, xPadding, 100, yDiff + 10};
     GuiToggle(buttonBounds, "Paddles", &debugPaddles);
-    buttonBounds.y += diff;
+    buttonBounds.y += yDiff + 10;
     GuiToggle(buttonBounds, "FPS", &debugFPS);
+    buttonBounds.y += yDiff + 10;
+    GuiToggle(buttonBounds, "Ball", &debugBall);
+    buttonBounds.y += yDiff + 10;
 
     int y = 10;
     if (debugFPS) {
-        DrawFPS(10, y);
-        y += diff;
+        DrawFPS(xPadding, y);
+        y += yDiff;
     }
     if (debugPaddles) {
-        DrawText("Paddle 0:", 10, y, 20, LIME);
-        y += diff;
+        DrawText("Paddle 0:", xPadding, y, yDiff, LIME);
+        y += yDiff;
         DrawText(TextFormat("	Position: (%.0f, %.0f)", paddles[0].Position.x,
                             paddles[0].Position.y),
-                 10, y, 20, LIME);
-        y += diff;
-        DrawText(TextFormat("	Velocity: %d", paddles[0].Velocity), 10, y, 20,
-                 LIME);
-        y += diff;
+                 xPadding, y, yDiff, LIME);
+        y += yDiff;
+        DrawText(TextFormat("	Velocity: %d", paddles[0].Velocity), xPadding,
+                 y, yDiff, LIME);
+        y += yDiff;
 
-        DrawText("Paddle 1:", 10, y, 20, LIME);
-        y += diff;
+        DrawText("Paddle 1:", xPadding, y, yDiff, LIME);
+        y += yDiff;
         DrawText(TextFormat("	Position: (%.0f, %.0f)", paddles[1].Position.x,
                             paddles[1].Position.y),
-                 10, y, 20, LIME);
-        y += diff;
-        DrawText(TextFormat("	Velocity: %d", paddles[1].Velocity), 10, y, 20,
+                 xPadding, y, yDiff, LIME);
+        y += yDiff;
+        DrawText(TextFormat("	Velocity: %d", paddles[1].Velocity), xPadding,
+                 y, yDiff, LIME);
+        y += yDiff;
+    }
+    if (debugBall) {
+        DrawText("Ball:", xPadding, y, yDiff, LIME);
+        y += yDiff;
+        DrawText(TextFormat("	Position: (%.0f, %.0f)", ball->Position.x,
+                            ball->Position.y),
+                 xPadding, y, yDiff, LIME);
+        y += yDiff;
+        DrawText(TextFormat("	Angle: %d", ball->Angle), xPadding, y, yDiff,
                  LIME);
-        y += diff;
+        y += yDiff;
+        switch (ball->State) {
+        case BallState_Moving:
+            DrawText("	State: Moving", xPadding, y, yDiff, LIME);
+            y += yDiff;
+            break;
+        case BallState_Resetting:
+            DrawText("	State: Resetting", xPadding, y, yDiff, LIME);
+            y += yDiff;
+            break;
+        }
     }
 }
