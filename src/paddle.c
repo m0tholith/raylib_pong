@@ -3,8 +3,8 @@
 #include "globals.h"
 #include "raymath.h"
 
-Vector2 dimensions = {6, 60};
-Vector2 dimensionsCenter = {3, 30};
+const Vector2 dimensions = {6, 60};
+const Vector2 dimensionsCenter = {3, 30};
 
 Paddle paddleCreate(int position) {
     return (Paddle){
