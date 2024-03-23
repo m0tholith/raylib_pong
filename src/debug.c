@@ -70,5 +70,10 @@ void debug(Paddle *paddles, Ball *ball) {
             y += yDiff;
             break;
         }
+        DrawText(TextFormat("	Speed: %.1f",
+                            (GetTime() - ball->RoundTimeStart) *
+                                BallAcceleration * 10 / 4),
+                 xPadding, y, yDiff, LIME);
+        y += yDiff;
     }
 }
