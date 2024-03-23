@@ -3,9 +3,6 @@
 #include "globals.h"
 #include "raymath.h"
 
-const Vector2 dimensions = {6, 60};
-const Vector2 dimensionsCenter = {3, 30};
-
 Paddle paddleCreate(int position) {
     return (Paddle){
         .Position = (Vector2){position, ScreenCenter.y},
@@ -15,10 +12,10 @@ Paddle paddleCreate(int position) {
 }
 void paddleUpdate(Paddle *paddle, float frameTime) {
     paddle->Position.y += paddle->Velocity * frameTime;
-    paddle->Position.y = Clamp(paddle->Position.y, dimensionsCenter.y,
-                               ScreenHeight - dimensionsCenter.y);
+    paddle->Position.y = Clamp(paddle->Position.y, PaddleDimensionsCenter.y,
+                               ScreenHeight - PaddleDimensionsCenter.y);
 }
 void paddleDraw(Paddle *paddle) {
-    DrawRectangleV(Vector2Subtract(paddle->Position, dimensionsCenter),
-                   dimensions, WHITE);
+    DrawRectangleV(Vector2Subtract(paddle->Position, PaddleDimensionsCenter),
+                   PaddleDimensions, WHITE);
 }
