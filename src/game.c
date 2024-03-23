@@ -1,7 +1,7 @@
+#include "debug.h"
 #include "globals.h"
 #include "paddle.h"
 #include "raylib.h"
-#include "debug.h"
 #include "stdlib.h"
 
 Paddle *paddles;
@@ -34,11 +34,11 @@ int main(void) {
         paddleUpdate(paddles + 1, frameTime);
         paddleDraw(paddles + 1);
 
-		if (IsKeyPressed(KEY_TAB))
-			debugMode = !debugMode;
+        if (IsKeyPressed(KEY_TAB))
+            debugMode = !debugMode;
 
-		if (debugMode)
-			debug(paddles);
+        if (debugMode)
+            debug(paddles);
 
         EndDrawing();
     }
