@@ -1,10 +1,13 @@
+#include "raylib.h"
+#include <stdlib.h>
+
 #include "debug.h"
+#include "ball.h"
 #include "globals.h"
 #include "paddle.h"
-#include "raylib.h"
-#include "stdlib.h"
 
 Paddle *paddles;
+Ball ball;
 
 bool debugMode = false;
 
@@ -16,6 +19,8 @@ int main(void) {
     paddles = malloc(2 * sizeof(Paddle));
     paddles[0] = paddleCreate(ScreenWidth / 4);
     paddles[1] = paddleCreate(3 * ScreenWidth / 4);
+
+	ball = ballCreate(ScreenCenter, 45);
 
     float frameTime = 0;
     while (!WindowShouldClose()) {
@@ -33,6 +38,9 @@ int main(void) {
         paddleDraw(paddles + 0);
         paddleUpdate(paddles + 1, frameTime);
         paddleDraw(paddles + 1);
+
+		ballUpdate(&ball, frameTime);
+		ballDraw(&ball);
 
         if (IsKeyPressed(KEY_TAB))
             debugMode = !debugMode;
