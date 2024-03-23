@@ -4,7 +4,8 @@
 #include "raylib.h"
 
 static const int BallSpeed = 500;
-static const float ResetTime = 2.0f;
+static const float BallResetTime = 2.0f;
+static const float BallAcceleration = 0.7;
 typedef enum BallState {
     BallState_Moving,
     BallState_Resetting,
@@ -14,6 +15,7 @@ typedef struct Ball {
     Vector2 Velocity;
     int Angle;
     BallState State;
+	float RoundTimeStart;
 } Ball;
 
 Ball ballCreate(Vector2 position, int angle);

@@ -18,21 +18,26 @@ Ball ballCreate(Vector2 position, int angle) {
         .Angle = angle,
         .Velocity = Vector2Rotate((Vector2){0, -BallSpeed}, angle / RAD2DEG),
         .State = BallState_Moving,
+        .RoundTimeStart = 0,
     };
 }
 void ballUpdate(Ball *ball, float frameTime) {
+    float currentTime = GetTime();
     if (ball->State == BallState_Resetting) {
-		resetCooldown -= frameTime;
-		if (resetCooldown <= 0)
-		{
-			ball->State = BallState_Moving;
-			ball->Position = ScreenCenter;
-		}
-		return;
-	}
+        resetCooldown -= frameTime;
+        if (resetCooldown <= 0) {
+            ball->State = BallState_Moving;
+            ball->Position = ScreenCenter;
+            ball->RoundTimeStart = currentTime;
+        }
+        return;
+    }
 
-    ball->Position =
-        Vector2Add(ball->Position, Vector2Scale(ball->Velocity, frameTime));
+    ball->Position = Vector2Add(
+        ball->Position,
+        Vector2Scale(ball->Velocity,
+                     frameTime + (currentTime - ball->RoundTimeStart) *
+                                     BallAcceleration / 4000));
 
     // 1. bouncing off of walls
     if (ball->Position.y < radius * 2 ||
@@ -59,11 +64,11 @@ void ballUpdate(Ball *ball, float frameTime) {
     if (ball->Position.x < 0) {
         paddles[0].Points++;
         ball->State = BallState_Resetting;
-        resetCooldown = ResetTime;
+        resetCooldown = BallResetTime;
     } else if (ball->Position.x > ScreenWidth) {
         paddles[1].Points++;
         ball->State = BallState_Resetting;
-        resetCooldown = ResetTime;
+        resetCooldown = BallResetTime;
     }
 }
 void ballDraw(Ball *ball) {

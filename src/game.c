@@ -1,8 +1,8 @@
 #include "raylib.h"
 #include <stdlib.h>
 
-#include "debug.h"
 #include "ball.h"
+#include "debug.h"
 #include "globals.h"
 #include "paddle.h"
 
@@ -20,7 +20,7 @@ int main(void) {
     paddles[0] = paddleCreate(ScreenWidth / 4);
     paddles[1] = paddleCreate(3 * ScreenWidth / 4);
 
-	ball = ballCreate(ScreenCenter, 45);
+    ball = ballCreate(ScreenCenter, -45);
 
     float frameTime = 0;
     while (!WindowShouldClose()) {
@@ -39,8 +39,17 @@ int main(void) {
         paddleUpdate(paddles + 1, frameTime);
         paddleDraw(paddles + 1);
 
-		ballUpdate(&ball, frameTime);
-		ballDraw(&ball);
+        ballUpdate(&ball, frameTime);
+        ballDraw(&ball);
+
+        if (ball.State == BallState_Resetting) {
+            const char *textP0 = TextFormat("%d", paddles[0].Points);
+            const char *textP1 = TextFormat("%d", paddles[1].Points);
+            DrawText(textP0, ScreenWidth / 4 + 50, 50, 120, WHITE);
+            DrawText(textP1,
+                     3 * ScreenWidth / 4 - 50 - MeasureText(textP1, 120), 50,
+                     120, WHITE);
+        }
 
         if (IsKeyPressed(KEY_TAB))
             debugMode = !debugMode;
@@ -51,7 +60,7 @@ int main(void) {
         EndDrawing();
     }
 
-	free(paddles);
+    free(paddles);
     // CloseAudioDevice();
     CloseWindow();
 
