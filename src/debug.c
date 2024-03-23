@@ -11,9 +11,9 @@ bool debugPaddles = true;
 bool debugBall = true;
 void debug(Paddle *paddles, Ball *ball) {
     Rectangle buttonBounds = {ScreenWidth - 110, xPadding, 100, yDiff + 10};
-    GuiToggle(buttonBounds, "Paddles", &debugPaddles);
-    buttonBounds.y += yDiff + 10;
     GuiToggle(buttonBounds, "FPS", &debugFPS);
+    buttonBounds.y += yDiff + 10;
+    GuiToggle(buttonBounds, "Paddles", &debugPaddles);
     buttonBounds.y += yDiff + 10;
     GuiToggle(buttonBounds, "Ball", &debugBall);
     buttonBounds.y += yDiff + 10;
