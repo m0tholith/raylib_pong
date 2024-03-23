@@ -46,7 +46,7 @@ void debug(Paddle *paddles, Ball *ball) {
         DrawText(TextFormat("	Velocity: %d", paddles[1].Velocity), xPadding,
                  y, yDiff, LIME);
         y += yDiff;
-        DrawText(TextFormat("	Points: %d", paddles[0].Points), xPadding, y,
+        DrawText(TextFormat("	Points: %d", paddles[1].Points), xPadding, y,
                  yDiff, LIME);
         y += yDiff;
     }

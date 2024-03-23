@@ -3,10 +3,14 @@
 #include "globals.h"
 #include "paddle.h"
 #include "raymath.h"
+#include <math.h>
+#include <stdio.h>
 
 extern Paddle *paddles;
 
-const int radius = 3;
+const int radius = 4;
+
+float resetCooldown = 0;
 
 Ball ballCreate(Vector2 position, int angle) {
     return (Ball){
@@ -17,8 +21,15 @@ Ball ballCreate(Vector2 position, int angle) {
     };
 }
 void ballUpdate(Ball *ball, float frameTime) {
-    if (ball->State == BallState_Resetting)
-        return;
+    if (ball->State == BallState_Resetting) {
+		resetCooldown -= frameTime;
+		if (resetCooldown <= 0)
+		{
+			ball->State = BallState_Moving;
+			ball->Position = ScreenCenter;
+		}
+		return;
+	}
 
     ball->Position =
         Vector2Add(ball->Position, Vector2Scale(ball->Velocity, frameTime));
@@ -48,9 +59,17 @@ void ballUpdate(Ball *ball, float frameTime) {
     if (ball->Position.x < 0) {
         paddles[0].Points++;
         ball->State = BallState_Resetting;
+        resetCooldown = ResetTime;
     } else if (ball->Position.x > ScreenWidth) {
         paddles[1].Points++;
         ball->State = BallState_Resetting;
+        resetCooldown = ResetTime;
     }
 }
-void ballDraw(Ball *ball) { DrawCircleV(ball->Position, radius, WHITE); }
+void ballDraw(Ball *ball) {
+    Color color = WHITE;
+    float fmodResult = fmod(resetCooldown, 0.666f);
+    if (ball->State == BallState_Resetting && fmodResult < 0.333f)
+        color = BLACK;
+    DrawCircleV(ball->Position, radius, color);
+}
