@@ -13,7 +13,7 @@ bool debugMode = false;
 #define PADDLE_POSITION_X 400
 
 int main(void) {
-    InitWindow(ScreenWidth, ScreenHeight, "game");
+    InitWindow(ScreenWidth, ScreenHeight - 36, "game");
     // InitAudioDevice();
     SetTargetFPS(FPS);
 
