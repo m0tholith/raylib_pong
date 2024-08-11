@@ -3,9 +3,9 @@
 
 #include "raylib.h"
 
-static const int BallSpeed = 500;
+static const int BallSpeed = 350;
 static const float BallResetTime = 2.0f;
-static const float BallAcceleration = 0.7;
+static const float BallAcceleration = 2;
 typedef enum BallState {
     BallState_Moving,
     BallState_Resetting,
