@@ -16,7 +16,7 @@ Ball ballCreate(Vector2 position, int angle) {
     return (Ball){
         .Position = position,
         .Angle = angle,
-        .Velocity = Vector2Rotate((Vector2){0, -BallSpeed}, angle / RAD2DEG),
+        .Velocity = Vector2Rotate((Vector2){0, -BallSpeed}, angle * DEG2RAD),
         .State = BallState_Moving,
         .RoundTimeStart = 0,
     };
@@ -45,7 +45,7 @@ void ballUpdate(Ball *ball, float frameTime) {
         ball->Angle = 180 - ball->Angle;
         ball->Angle %= 360;
         ball->Velocity =
-            Vector2Rotate((Vector2){0, -BallSpeed}, ball->Angle / RAD2DEG);
+            Vector2Rotate((Vector2){0, -BallSpeed}, ball->Angle * DEG2RAD);
     }
 
     // 2. bouncing off of paddles
@@ -57,7 +57,7 @@ void ballUpdate(Ball *ball, float frameTime) {
             ball->Angle *= -1;
             ball->Angle %= 360;
             ball->Velocity =
-                Vector2Rotate((Vector2){0, -BallSpeed}, ball->Angle / RAD2DEG);
+                Vector2Rotate((Vector2){0, -BallSpeed}, ball->Angle * DEG2RAD);
             break;
         }
     }
