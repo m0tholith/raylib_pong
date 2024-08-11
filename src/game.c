@@ -10,6 +10,7 @@ Paddle *paddles;
 Ball ball;
 
 bool debugMode = false;
+#define PADDLE_POSITION_X 400
 
 int main(void) {
     InitWindow(ScreenWidth, ScreenHeight, "game");
@@ -17,8 +18,8 @@ int main(void) {
     SetTargetFPS(FPS);
 
     paddles = malloc(2 * sizeof(Paddle));
-    paddles[0] = paddleCreate(ScreenWidth / 4);
-    paddles[1] = paddleCreate(3 * ScreenWidth / 4);
+    paddles[0] = paddleCreate(ScreenWidth / 2 - PADDLE_POSITION_X);
+    paddles[1] = paddleCreate(ScreenWidth / 2 + PADDLE_POSITION_X);
 
     ball = ballCreate(ScreenCenter, -45);
 
